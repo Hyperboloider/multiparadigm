@@ -110,8 +110,12 @@ readLoop:
 
 	file.close();
 
-	for (int i = 0; i < currentNumberOfWords; i++) {
-		for (int j = 0; j < currentNumberOfWords - i - 1; j++) {
+	int i = 0;
+	sortOuter:
+	if (i < currentNumberOfWords) {
+		int j = 0;
+		sortInner:
+		if (j < currentNumberOfWords - i - 1) {
 			if (words[j] > words[j + 1]) {
 				std::string tmp = words[j];
 				words[j] = words[j + 1];
@@ -121,12 +125,18 @@ readLoop:
 				occurenceRecords[j] = occurenceRecords[j + 1];
 				occurenceRecords[j + 1] = tmpRecord;
 			}
+
+			j++;
+			goto sortInner;
 		}
+
+		i++;
+		goto sortOuter;
 	}
 
 	std::ofstream outFile("result.txt");
 	int outputIndex = 0;
-	int i = 0;
+	i = 0;
 
 outputLoopOuter:
 	if (i < currentNumberOfWords) {
